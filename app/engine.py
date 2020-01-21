@@ -1,5 +1,6 @@
 ﻿import logging
 import os
+import asyncio
 
 import callbacks
 import commands
@@ -11,6 +12,9 @@ import myenigma
 import rocketgram
 import send
 import unknown
+
+from models import create_indexes
+import data
 
 
 # avoid to remove "unused" imports by optimizers
@@ -47,6 +51,9 @@ def main():
     logger.info('Starting bot''s template in %s...', mode)
 
     bot = mybot.get_bot(os.environ['TOKEN'].strip())
+
+    loop = asyncio.get_event_loop()
+    loop.create_task(create_indexes())
 
     if mode == 'updates':
         rocketgram.UpdatesExecutor.run(bot, drop_updates=bool(int(os.environ.get('DROP_UPDATES', 0))))

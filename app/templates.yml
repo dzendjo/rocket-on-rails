@@ -1,0 +1,12 @@
+lang:
+  text: "Choose your language:"
+  ru: 🇷🇺Русский
+  en: 🇬🇧English
+
+ru:
+  start_message:
+    Ваш язык - русский!
+
+en:
+  start_message:
+    Your language is English!
