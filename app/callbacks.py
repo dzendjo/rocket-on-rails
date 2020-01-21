@@ -3,6 +3,25 @@ from rocketgram import InlineKeyboard
 from rocketgram import SendMessage, AnswerCallbackQuery, DeleteMessage
 from rocketgram import commonfilters, ChatType, context2
 
+from tools import get_user
+from data import jinja
+import re
+
+
+@router.handler
+@commonfilters.chat_type(ChatType.private)
+@commonfilters.callback('language')
+async def reaction_on_lang_keyboard():
+    await AnswerCallbackQuery(context2.update.callback_query.query_id).send()
+
+    user = await get_user(context2.update.callback_query.user.__dict__)
+    language_code = context2.update.callback_query.data.split()[1]
+    user.language = language_code
+    await user.commit()
+
+    message_text = jinja.get_template(f'{language_code}/start_message').render()
+    await SendMessage(user.user_id, message_text).send()
+
 
 @router.handler
 @commonfilters.chat_type(ChatType.private)

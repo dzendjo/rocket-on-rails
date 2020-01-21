@@ -1,23 +1,30 @@
 from mybot import router
 from rocketgram import commonfilters, ChatType, SendMessage
-from rocketgram import context2
+from rocketgram import context2, Message
+from rocketgram import InlineKeyboard
+
+from data import jinja
+from models import User
+
+from pprint import pprint
+import datetime
+from tools import get_user
 
 
 @router.handler
 @commonfilters.chat_type(ChatType.private)
 @commonfilters.command('/start')
 async def start_command():
-    """This is asynchronous handler. You can use here any async code."""
+    user = await get_user(context2.message.user.__dict__)
+
+    kb = InlineKeyboard()
+    kb.callback(jinja.get_template('lang/ru').render(), 'language ru')
+    kb.callback(jinja.get_template('lang/en').render(), 'language en')
+    kb.arrange_simple(2)
 
     await SendMessage(context2.message.user.user_id,
-                      '🔹 Hello there. This is the demo bot for Rocketgram framework.\n\n'
-                      'See source code here:\n'
-                      'github.com/vd2org/rocketgram-template\n\n'
-                      'And Rocketgram framework source here:\n'
-                      'github.com/vd2org/rocketgram\n\n'
-                      'You can list all commands by type /help.\n\n'
-                      'Support group: @RocketBots.',
-                      disable_web_page_preview=True).send()
+                      jinja.get_template('lang/text').render(),
+                      reply_markup=kb.render()).send()
 
 
 @router.handler

@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  mongo:
+    image: mongo
+    restart: always
+    container_name: mongo
+    environment:
+      MONGO_HOST: localhost
+      MONGO_PORT: 27017
+      MONGO_DB_NAME: bot
+    ports:
+      - "27017:27017"
