@@ -2,7 +2,7 @@ munch==2.5.0
 py-enigma==0.1
 rocketgram[ujson,aiohttp]==1.6.1
 j2tools==2019.3
-Jinja2==2.10.3
+Jinja2==2.11.3
 pymongo==3.10.0
 umongo==2.2.0
 motor==2.1.0
